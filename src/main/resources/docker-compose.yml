@@ -1,0 +1,24 @@
+version: "3.8"
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb-container
+    ports:
+      - "28000:27017"
+    networks:
+      - app-network
+  springboot-app:
+    image: ranjan715/springboot-with-mongodb:v11
+    container_name: springboot-app-container
+    ports:
+      - "8090:8081"
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/nom_de_votre_base
+    depends_on:
+      - mongodb
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
